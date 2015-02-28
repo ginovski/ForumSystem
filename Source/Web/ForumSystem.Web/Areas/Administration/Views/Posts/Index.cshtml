@@ -1,0 +1,34 @@
+﻿@using ForumSystem.Web.Areas.Administration.ViewModels.Posts
+@model DisplayPostViewModel
+@{
+    ViewBag.Title = "Index";
+    const string ControllerName = "Posts";
+}
+@(Html.Kendo().Grid<DisplayPostViewModel>()
+    .Name("grid")
+    .Columns(c =>
+    {
+        c.Bound(m => m.Id);
+        c.Bound(m => m.Title);
+        c.Bound(m => m.Content);
+        c.Bound(m => m.AuthorName);
+        c.Bound(m => m.CreatedOn);
+        c.Bound(m => m.ModifiedOn);
+        c.Bound(m => m.IsDeleted);
+        c.Command(e => e.Edit());
+        c.Command(e => e.Destroy());
+    })
+    .ColumnMenu()
+    .Pageable(page => page.Refresh(true))
+    .Sortable()
+    .Filterable()
+    .Editable(edit => edit.Mode(GridEditMode.PopUp).TemplateName("EditPostTemplate"))
+    .ToolBar(toolbar => toolbar.Create())
+    .DataSource(data => data
+    .Ajax()
+    .Model(m =>  m.Id(model => model.Id))
+    .Read(read => read.Action("Read", ControllerName))
+    .Create(create => create.Action("Create", ControllerName))
+    .Update(update => update.Action("Update", ControllerName))
+    .Destroy(destroy => destroy.Action("Destroy", ControllerName))
+))

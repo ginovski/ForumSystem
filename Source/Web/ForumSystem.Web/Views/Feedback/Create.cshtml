@@ -1,0 +1,19 @@
+﻿@model ForumSystem.Web.ViewModels.Feedbacks.FeedbackViewModel
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Feedback</h2>
+@using (Html.BeginForm("Create", "Feedback", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    
+    @Html.EditorFor(m => m.Title)
+    @Html.EditorFor(m => m.Content)
+    
+    <input type="submit" value="Add Feedback" class="btn btn-primary" />
+}
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
